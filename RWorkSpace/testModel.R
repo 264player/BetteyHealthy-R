@@ -7,7 +7,7 @@ testData <- subset(sourceData,SoH == -100)
 str(testData)
 summary(testData)
 
-result <- predict(model,testData[,c("capacity","resistance","CVCT","CCCT")])-0.012
+result <- predict(model,testData[,c("capacity","resistance","CVCT","CCCT")])-0.113
 
 
 
