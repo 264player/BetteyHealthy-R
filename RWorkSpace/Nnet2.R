@@ -1,7 +1,12 @@
 library(neuralnet)
 
 # 读取并处理训练数据
-source <- read.csv("D:\\studyDay\\RWorkSpace\\data\\battery\\train_data.csv")[,c("cycle","capacity","SoH","resistance","CVCT","CCCT")]
+source <- read.csv("D:\\studyDay\\RWorkSpace\\data\\battery\\train_data.csv")#[,c("cycle","capacity","SoH","resistance","CVCT","CCCT","CS_Name")]
+cs38 <- subset(source,CS_Name=="CS2_38"&cycle>200&CCCT>4000&CVCT>1600)
+source<-subset(source,CCCT>4000&CVCT>1600&CS_Name!="CS2_38")
+source <- rbind(cs38,source)
+devsource <- read.csv("D:\\studyDay\\RWorkSpace\\data\\battery\\train_data.csv")#[,c("cycle","capacity","SoH","resistance","CVCT","CCCT","CS_Name")]
+source <- rbind(devsource,source)
 source <- subset(source, CVCT != 0 & CCCT != 0)
 source <- source[complete.cases(source), ]  # 移除缺失值
 str(source)
@@ -37,7 +42,8 @@ while (current_rmse > threshold_rmse && iteration < max_iterations) {
   model <- neuralnet(SoH ~ capacity + CVCT + CCCT + resistance,
                      data = source, 
                      hidden = c(3,5,3), 
-                     stepmax = 1e6)  # 增加stepmax以允许更多的迭代次数
+                     stepmax = 1e6,
+                     linear.output = FALSE)
   
   # 进行预测
   pred_input <- testData[, c("capacity", "resistance", "CVCT", "CCCT")]

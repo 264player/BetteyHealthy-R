@@ -18,6 +18,15 @@ CS2_38 <- subset(source,CS_Name == "CS2_38")
 summary((CS2_38))
 
 ggplot(data = source)+
+  geom_line(data = CS2_35,aes(x=cycle,y=SoH,color="CS2_35"))+
+  geom_line(data = CS2_36,aes(x=cycle,y=SoH,color="CS2_36"))+
+  geom_line(data = CS2_37,aes(x=cycle,y=SoH,color="CS2_37"))+
+  geom_line(data = CS2_38,aes(x=cycle,y=SoH,color="CS2_38"))+
+  labs(title = "电池容量和充放电循环次数的关系",x="Cycles",y="SoH",color="CS_Name") +
+  scale_color_manual(values = c("CS2_35" = "red", "CS2_36" = "blue", "CS2_37" = "green", "CS2_38" = "black"),
+                     labels = c("CS2_35", "CS2_36", "CS2_37", "CS2_38"))
+
+ggplot(data = source)+
   geom_point(data = CS2_35,aes(x=cycle,y=capacity,color="CS2_35"))+
   geom_point(data = CS2_36,aes(x=cycle,y=capacity,color="CS2_36"))+
   geom_point(data = CS2_37,aes(x=cycle,y=capacity,color="CS2_37"))+
